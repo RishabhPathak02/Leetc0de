@@ -1,0 +1,46 @@
+class Solution {
+    public static void leftMax(int[] left, int[] height) {
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < height.length; i++) {
+            if (height[i] > max) {
+                max = height[i];
+            }
+            left[i] = max;
+
+        }
+    }
+
+    public static void rightMax(int[] right, int[] height) {
+        int max = Integer.MIN_VALUE;
+        for (int i = height.length - 1; i >= 0; i--) {
+            if (height[i] > max) {
+                max = height[i];
+            }
+            right[i] = max;
+
+        }
+    }
+
+    public static void min(int[] left, int[] right, int[] minWater) {
+        for (int i = 0; i < left.length; i++) {
+            minWater[i] = Math.min(left[i], right[i]);
+        }
+
+    }
+
+    public int trap(int[] height) {
+        int[] leftMaxBound = new int[height.length];
+        int[] rightMaxBound = new int[height.length];
+        int[] minWater = new int[height.length];
+
+        leftMax(leftMaxBound, height);
+        rightMax(rightMaxBound, height);
+        min(leftMaxBound, rightMaxBound, minWater);
+        int totalWater = 0;
+        for (int i = 0; i < height.length; i++) {
+            int temp = minWater[i] - height[i];
+            totalWater += (temp > 0) ? temp : 0;
+        }
+        return totalWater;
+    }
+}
